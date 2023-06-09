@@ -3,6 +3,8 @@ package gosrv
 import (
 	"net"
 	"sync"
+
+	_ "cyberpull.com/gotk/env"
 )
 
 type Server interface {
