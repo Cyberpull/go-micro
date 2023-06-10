@@ -1,7 +1,10 @@
 package gosrv
 
 type NetWriter interface {
-	Write(b []byte) (int, error)
+	Write(b []byte) (n int, err error)
+	WriteLine(b []byte) (n int, err error)
+	WriteString(s string) (n int, err error)
+	WriteStringLine(s string) (n int, err error)
 }
 
 // ============================

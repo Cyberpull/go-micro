@@ -20,7 +20,26 @@ type pServer struct {
 }
 
 func (p *pServer) Listen(errChan ...chan error) {
-	//
+	var err error
+
+	defer p.Stop()
+
+	if p.listener, err = listen(p.opts); err != nil {
+		writeOne(errChan, err)
+		return
+	}
+
+	writeOne(errChan, nil)
+
+	var conn net.Conn
+
+	for {
+		if conn, err = p.listener.Accept(); err != nil {
+			break
+		}
+
+		go p.handleIncomingConnection(conn)
+	}
 }
 
 func (p *pServer) Stop() error {

@@ -1,7 +1,13 @@
 package gosrv
 
 type NetReader interface {
-	Read(delim byte) ([]byte, error)
+	Read(b []byte) (n int, err error)
+	ReadByte() (b byte, err error)
+	ReadBytes(delim byte) (b []byte, err error)
+	ReadLine(delim byte) (line []byte, isPrefix bool, err error)
+	ReadRune() (r rune, size int, err error)
+	ReadSlice(delim byte) (line []byte, err error)
+	ReadString(delim byte) (s string, err error)
 }
 
 // ============================

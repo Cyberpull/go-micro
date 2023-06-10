@@ -1,12 +1,13 @@
 package gosrv
 
-import "crypto/tls"
+import (
+	"cyberpull.com/gotk/cert"
+)
 
 type Options interface {
-	GetHost() string
-	GetPort() string
-	GetName() string
-	GetAlias() string
-	GetTlsConfig() *tls.Config
-	SetTlsConfig(config *tls.Config)
+	getHost() string
+	getPort() string
+	getName() string
+	getAlias() string
+	getCertOptions() *cert.Options
 }

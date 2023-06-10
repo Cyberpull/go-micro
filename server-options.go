@@ -1,35 +1,33 @@
 package gosrv
 
-import "crypto/tls"
+import (
+	"cyberpull.com/gotk/cert"
+)
 
 type ServerOptions struct {
-	Host      string
-	Port      string
-	Name      string
-	Alias     string
-	TlsConfig *tls.Config
+	Host        string
+	Port        string
+	Name        string
+	Alias       string
+	CertOptions *cert.Options
 }
 
-func (o ServerOptions) GetHost() string {
+func (o ServerOptions) getHost() string {
 	return o.Host
 }
 
-func (o ServerOptions) GetPort() string {
+func (o ServerOptions) getPort() string {
 	return o.Port
 }
 
-func (o ServerOptions) GetName() string {
+func (o ServerOptions) getName() string {
 	return o.Name
 }
 
-func (o ServerOptions) GetAlias() string {
+func (o ServerOptions) getAlias() string {
 	return o.Alias
 }
 
-func (o ServerOptions) GetTlsConfig() *tls.Config {
-	return o.TlsConfig
-}
-
-func (o *ServerOptions) SetTlsConfig(config *tls.Config) {
-	o.TlsConfig = config
+func (o ServerOptions) getCertOptions() *cert.Options {
+	return o.CertOptions
 }
