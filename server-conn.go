@@ -15,6 +15,10 @@ type pServerConn struct {
 	mutex sync.Mutex
 }
 
+func (s *pServerConn) WriteRequest(req *pRequest) (n int, err error) {
+	return writeRequest(s, req)
+}
+
 // ========================
 
 func newServerConn(conn net.Conn) *pServerConn {

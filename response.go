@@ -1,14 +1,13 @@
 package gosrv
 
-type Response interface {
-	//
+type Response struct {
+	pDataWithCode
+
+	Request *pRequest
 }
 
-type pResponse struct {
-	//
-}
-
-func newResponse() Response {
-	value := &pResponse{}
-	return value
+func newResponse(req *pRequest) *Response {
+	return &Response{
+		Request: req,
+	}
 }

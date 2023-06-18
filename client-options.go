@@ -5,10 +5,9 @@ import (
 )
 
 type ClientOptions struct {
-	ServerHost  string
-	ServerPort  string
-	Name        string
-	Alias       string
+	ServerHost  string `binding:"required"`
+	ServerPort  string `binding:"required"`
+	Info        *Info  `binding:"required"`
 	CertOptions *cert.Options
 }
 
@@ -20,12 +19,8 @@ func (o ClientOptions) getPort() string {
 	return o.ServerPort
 }
 
-func (o ClientOptions) getName() string {
-	return o.Name
-}
-
-func (o ClientOptions) getAlias() string {
-	return o.Alias
+func (o ClientOptions) getInfo() *Info {
+	return o.Info
 }
 
 func (o ClientOptions) getCertOptions() *cert.Options {

@@ -1,30 +1,28 @@
 package gosrv
 
-import "cyberpull.com/gotk/objects"
-
-type BaseData interface {
-	SetData(v any) (err error)
-	ParseData(v any) (err error)
+type Data interface {
+	SetContent(v any) (err error)
+	ParseContent(v any) (err error)
 }
 
 // ======================
 
-type pBaseData struct {
-	Data []byte `json:"data"`
+type pData struct {
+	Content []byte `json:"content" binding:"required"`
 }
 
-func (b *pBaseData) SetData(v any) (err error) {
-	data, err := objects.ToJSON(v)
+func (d *pData) SetContent(v any) (err error) {
+	data, err := pJson.Encode(v)
 
 	if err != nil {
 		return
 	}
 
-	b.Data = data
+	d.Content = data
 
 	return
 }
 
-func (b *pBaseData) ParseData(v any) (err error) {
-	return objects.ParseJSON(b.Data, v)
+func (d pData) ParseContent(v any) (err error) {
+	return pJson.Decode(d.Content, v)
 }

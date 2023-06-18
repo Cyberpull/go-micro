@@ -7,7 +7,6 @@ import (
 type Options interface {
 	getHost() string
 	getPort() string
-	getName() string
-	getAlias() string
 	getCertOptions() *cert.Options
+	getInfo() *Info
 }

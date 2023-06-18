@@ -7,16 +7,28 @@ import (
 	_ "cyberpull.com/gotk/env"
 )
 
+type ClientBootHandler func(client NetIO) (err error)
+type ClientReadyHandler func(client ClientUpdater) (err error)
+type RequestHandlerSubscriber func(collection RequestHandlerCollection)
+
+// =====================
+
 type Server interface {
 	Listen(errChan ...chan error)
+	OnClientReady(handlers ...ClientReadyHandler)
+	Stop() error
 }
 
 // =====================
 
 type pServer struct {
-	mutex    sync.Mutex
-	listener net.Listener
-	opts     ServerOptions
+	mutex       sync.Mutex
+	listener    net.Listener
+	opts        ServerOptions
+	instances   map[string]*serverClientInstance
+	collection  *pRequestHandlerCollection
+	clientBoot  []ClientBootHandler
+	clientReady []ClientReadyHandler
 }
 
 func (p *pServer) Listen(errChan ...chan error) {
@@ -24,22 +36,41 @@ func (p *pServer) Listen(errChan ...chan error) {
 
 	defer p.Stop()
 
-	if p.listener, err = listen(p.opts); err != nil {
-		writeOne(errChan, err)
+	if err = pValidator.Validate(p.opts); err != nil {
+		sendOne(errChan, err)
 		return
 	}
 
-	writeOne(errChan, nil)
+	if p.listener, err = listen(p.opts); err != nil {
+		sendOne(errChan, err)
+		return
+	}
 
-	var conn net.Conn
+	sendOne(errChan, nil)
 
 	for {
+		var conn net.Conn
+
 		if conn, err = p.listener.Accept(); err != nil {
 			break
 		}
 
 		go p.handleIncomingConnection(conn)
 	}
+}
+
+func (p *pServer) RequestHandlers(subscribers ...RequestHandlerSubscriber) {
+	for _, subscriber := range subscribers {
+		subscriber(p.collection)
+	}
+}
+
+func (p *pServer) OnClientBoot(handlers ...ClientBootHandler) {
+	p.clientBoot = append(p.clientBoot, handlers...)
+}
+
+func (p *pServer) OnClientReady(handlers ...ClientReadyHandler) {
+	p.clientReady = append(p.clientReady, handlers...)
 }
 
 func (p *pServer) Stop() error {
@@ -54,7 +85,10 @@ func (p *pServer) Stop() error {
 
 func NewServer(opts ServerOptions) Server {
 	value := &pServer{
-		opts: opts,
+		opts:        opts,
+		instances:   make(map[string]*serverClientInstance),
+		collection:  newRequestHandlerCollection(),
+		clientReady: make([]ClientReadyHandler, 0),
 	}
 
 	return value
