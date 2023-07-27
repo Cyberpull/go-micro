@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"cyberpull.com/gotk/uuid"
+	"cyberpull.com/gotk/v2"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 type serverClientInstance struct {
@@ -22,7 +23,7 @@ func (i *serverClientInstance) Start() {
 		}
 	}()
 
-	mustWriteState(i.client, requestState, true)
+	// mustWriteState(i.client, requestState, true)
 
 	for {
 		req, err := i.client.ReadRequest()
@@ -36,7 +37,31 @@ func (i *serverClientInstance) Start() {
 }
 
 func (i *serverClientInstance) handleRequest(req *pRequest) {
-	// ctx := newContext(i, req)
+	var err error
+	var handler RequestHandler
+
+	defer func() {
+		if r := recover(); r != nil {
+			err = errors.From(r)
+		}
+
+		if err != nil {
+			writeErrorResponse(i.client, req, err)
+		}
+	}()
+
+	method, channel := req.Method, req.Channel
+
+	if handler, err = i.server.collection.Get(method, channel); err != nil {
+		// writeErrorResponse(i.client, req, err)
+		return
+	}
+
+	ctx := newContext(i, req)
+
+	output := handler(ctx)
+
+	writeOutputResponse(i.client, req, output)
 }
 
 func (i *serverClientInstance) prepare() (err error) {
@@ -63,7 +88,7 @@ func (i *serverClientInstance) prepare() (err error) {
 // =====================
 
 func newServerClientInstance(server *pServer, conn net.Conn) (instance *serverClientInstance, err error) {
-	instanceUUID, err := uuid.Generate()
+	instanceUUID, err := gotk.UUID()
 
 	instance = &serverClientInstance{
 		uuid:   instanceUUID,

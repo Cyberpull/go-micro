@@ -1,6 +1,6 @@
 package gosrv
 
-import "cyberpull.com/gotk/uuid"
+import "cyberpull.com/gotk/v2"
 
 type Request interface {
 	Data
@@ -17,7 +17,7 @@ type pRequest struct {
 // ======================
 
 func newRequest(method, channel string) (req *pRequest, err error) {
-	reqUUID, err := uuid.Generate()
+	reqUUID, err := gotk.UUID()
 
 	if err != nil {
 		return

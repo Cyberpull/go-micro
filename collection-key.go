@@ -1,6 +1,8 @@
 package gosrv
 
-import "sync"
+import (
+	"sync"
+)
 
 type KCallback[K any] func(i K) string
 
@@ -16,10 +18,6 @@ type pKCollection[K any, T any] struct {
 	mutex       sync.Mutex
 	keyCallback KCallback[K]
 	values      map[string][]T
-}
-
-func (h *pKCollection[K, T]) setKeyCallback(callback KCallback[K]) {
-	h.keyCallback = callback
 }
 
 func (h *pKCollection[K, T]) key(i K) string {
@@ -59,9 +57,7 @@ func (h *pKCollection[K, T]) GetAll(i K) (values []T) {
 
 	key := h.key(i)
 
-	values, _ = h.values[key]
-
-	return
+	return h.values[key]
 }
 
 func (h *pKCollection[K, T]) Get(i K) (value T, ok bool) {
@@ -76,6 +72,10 @@ func (h *pKCollection[K, T]) Get(i K) (value T, ok bool) {
 	var values []T
 
 	if values, ok = h.values[key]; ok {
+		if ok = len(values) > 0; !ok {
+			return
+		}
+
 		value = values[0]
 	}
 

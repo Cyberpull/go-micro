@@ -3,7 +3,7 @@ module cyberpull.com/gosrv
 go 1.20
 
 require (
-	cyberpull.com/gotk v1.4.2
+	cyberpull.com/gotk/v2 v2.0.0
 	github.com/stretchr/testify v1.8.4
 )
 

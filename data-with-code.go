@@ -1,7 +1,7 @@
 package gosrv
 
 import (
-	"cyberpull.com/gotk/errors"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 type DataWithCode interface {
@@ -30,6 +30,28 @@ func (d pDataWithCode) GetError() (err error) {
 	}
 
 	err = errors.New(message, d.Code)
+
+	return
+}
+
+func (d *pDataWithCode) SetError(data any, code ...int) (err error) {
+	var message string
+
+	d.Code = one[int](500, code)
+
+	switch x := data.(type) {
+	case Data:
+		err = x.ParseContent(&message)
+
+		if err != nil {
+			return
+		}
+
+	default:
+		e := errors.From(data, code...)
+		message, d.Code = e.Error(), e.Code()
+		err = d.SetContent(e.Error())
+	}
 
 	return
 }

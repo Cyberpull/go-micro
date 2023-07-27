@@ -3,7 +3,7 @@ package gosrv
 import (
 	"strings"
 
-	"cyberpull.com/gotk/errors"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 type RequestHandler func(ctx Context) Output

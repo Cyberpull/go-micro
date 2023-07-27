@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"strings"
 
-	"cyberpull.com/gotk/errors"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 const (
@@ -39,7 +39,7 @@ func parseValue[T any](v string, prefix string) (value T, err error) {
 
 	tmpInfo := reflect.New(vType.Elem()).Interface().(T)
 
-	if err = pJson.Decode([]byte(v), tmpInfo); err != nil {
+	if err = json.Decode([]byte(v), tmpInfo); err != nil {
 		return
 	}
 
@@ -72,18 +72,18 @@ func parseRequestValue(v string) (resp *pRequest, err error) {
 	return parseValue[*pRequest](v, requestPrefix)
 }
 
-func parseResponse(v string) (resp *Response, err error) {
-	return parse[*Response](v, responsePrefix)
+func parseResponse(v string) (resp *pResponse, err error) {
+	return parse[*pResponse](v, responsePrefix)
 }
 
-func parseResponseValue(v string) (resp *Response, err error) {
-	return parseValue[*Response](v, responsePrefix)
+func parseResponseValue(v string) (resp *pResponse, err error) {
+	return parseValue[*pResponse](v, responsePrefix)
 }
 
-func parseUpdate(v string) (data *Update, err error) {
-	return parse[*Update](v, updatePrefix)
+func parseUpdate(v string) (data *pUpdate, err error) {
+	return parse[*pUpdate](v, updatePrefix)
 }
 
-func parseUpdateValue(v string) (data *Update, err error) {
-	return parseValue[*Update](v, updatePrefix)
+func parseUpdateValue(v string) (data *pUpdate, err error) {
+	return parseValue[*pUpdate](v, updatePrefix)
 }

@@ -1,9 +1,9 @@
 package gosrv
 
-import "cyberpull.com/gotk/objects"
+import "cyberpull.com/gotk/v2"
 
-var pJson objects.JSONEngine
+var json gotk.JSONEngine
 
 func init() {
-	pJson = objects.NewJSON(validatorTagName)
+	json = gotk.NewJSON(validatorTagName)
 }

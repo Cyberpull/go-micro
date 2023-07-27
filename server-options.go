@@ -1,7 +1,7 @@
 package gosrv
 
 import (
-	"cyberpull.com/gotk/cert"
+	"cyberpull.com/gotk/v2/cert"
 )
 
 type ServerOptions struct {

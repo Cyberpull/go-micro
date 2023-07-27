@@ -1,11 +1,11 @@
 package gosrv
 
-import "cyberpull.com/gotk/validator"
+import "cyberpull.com/gotk/v2"
 
 const validatorTagName string = "binding"
 
-var pValidator *validator.ValidatorInstance
+var validator gotk.Validator
 
 func init() {
-	pValidator = validator.New(validatorTagName)
+	validator = gotk.NewValidator(validatorTagName)
 }

@@ -1,7 +1,7 @@
 package gosrv
 
 type Data interface {
-	SetContent(v any) (err error)
+	// SetContent(v any) (err error)
 	ParseContent(v any) (err error)
 }
 
@@ -12,7 +12,7 @@ type pData struct {
 }
 
 func (d *pData) SetContent(v any) (err error) {
-	data, err := pJson.Encode(v)
+	data, err := json.Encode(v)
 
 	if err != nil {
 		return
@@ -24,5 +24,5 @@ func (d *pData) SetContent(v any) (err error) {
 }
 
 func (d pData) ParseContent(v any) (err error) {
-	return pJson.Decode(d.Content, v)
+	return json.Decode(d.Content, v)
 }

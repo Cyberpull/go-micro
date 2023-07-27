@@ -4,7 +4,7 @@ import (
 	"net"
 	"sync"
 
-	_ "cyberpull.com/gotk/env"
+	_ "cyberpull.com/gotk/v2/env"
 )
 
 type ClientBootHandler func(client NetIO) (err error)
@@ -16,6 +16,7 @@ type RequestHandlerSubscriber func(collection RequestHandlerCollection)
 type Server interface {
 	Listen(errChan ...chan error)
 	OnClientReady(handlers ...ClientReadyHandler)
+	RequestHandlers(subscribers ...RequestHandlerSubscriber)
 	Stop() error
 }
 
@@ -36,7 +37,7 @@ func (p *pServer) Listen(errChan ...chan error) {
 
 	defer p.Stop()
 
-	if err = pValidator.Validate(p.opts); err != nil {
+	if err = validator.Validate(p.opts); err != nil {
 		sendOne(errChan, err)
 		return
 	}

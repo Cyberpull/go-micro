@@ -1,17 +1,23 @@
 package tests
 
-import (
-	"testing"
+import "cyberpull.com/gosrv"
 
-	"github.com/stretchr/testify/suite"
-)
+func startClient(s *GoSRVTestSuite) (err error) {
+	s.client = gosrv.NewClient(gosrv.ClientOptions{
+		ServerHost: ServerHost,
+		ServerPort: ServerPort,
+		Info: &gosrv.Info{
+			Name:        "GoSRV Client",
+			Description: "GoSRV Testing Client",
+			Alias:       "GoSRV",
+		},
+	})
 
-type ClientTestSuite struct {
-	suite.Suite
-}
+	errChan := make(chan error)
 
-// ========================
+	go s.client.Start(errChan)
 
-func TestClient(t *testing.T) {
-	suite.Run(t, new(ClientTestSuite))
+	err = <-errChan
+
+	return
 }

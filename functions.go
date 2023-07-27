@@ -4,8 +4,9 @@ import (
 	"crypto/tls"
 	"fmt"
 	"net"
+	"time"
 
-	"cyberpull.com/gotk/cert"
+	"cyberpull.com/gotk/v2/cert"
 )
 
 func address(opts Options) string {
@@ -28,6 +29,27 @@ func listen(opts Options) (net.Listener, error) {
 	}
 
 	return net.Listen("tcp", addr)
+}
+
+func connect(opts Options) (net.Conn, error) {
+	addr := address(opts)
+
+	timeout := time.Second * 30
+
+	if certOpts := opts.getCertOptions(); certOpts != nil {
+		config, err := cert.GetTLSConfig(*certOpts)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if config != nil {
+			dialer := &net.Dialer{Timeout: timeout}
+			return tls.DialWithDialer(dialer, "tcp", addr, config)
+		}
+	}
+
+	return net.DialTimeout("tcp", addr, timeout)
 }
 
 func one[T any](def T, args []T) T {

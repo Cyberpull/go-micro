@@ -3,7 +3,7 @@ package gosrv
 import (
 	"reflect"
 
-	"cyberpull.com/gotk/errors"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 func write[T any](prefix string, io NetIO, data T) (n int, err error) {
@@ -22,7 +22,7 @@ func write[T any](prefix string, io NetIO, data T) (n int, err error) {
 
 	var b []byte
 
-	if b, err = pJson.Encode(data); err != nil {
+	if b, err = json.Encode(data); err != nil {
 		return
 	}
 
@@ -43,32 +43,54 @@ func writeRequest(io NetIO, data *pRequest) (n int, err error) {
 	return write[*pRequest](requestPrefix, io, data)
 }
 
-func writeResponse(io NetIO, data *Response) (n int, err error) {
-	return write[*Response](responsePrefix, io, data)
+func writeResponse(io NetIO, data Response) (n int, err error) {
+	return write[Response](responsePrefix, io, data)
 }
 
-func writeUpdate(io NetIO, data *Update) (n int, err error) {
-	return write[*Update](updatePrefix, io, data)
-}
+func writeErrorResponse(io NetIO, req *pRequest, data any, code ...int) (n int, err error) {
+	resp := newResponse(req)
 
-func writeState(io NetIO, name string, value bool) (n int, err error) {
-	output := statePrefix + separator + name + "="
-
-	if value {
-		output += "YES"
-	} else {
-		output += "NO"
+	if err = resp.SetError(data, code...); err != nil {
+		return
 	}
 
-	return io.WriteStringLine(output)
+	return writeResponse(io, resp)
 }
 
-func mustWriteState(io NetIO, name string, value bool) (n int) {
-	var err error
+func writeOutputResponse(io NetIO, req *pRequest, data Output) (n int, err error) {
+	resp := newResponse(req)
 
-	if n, err = writeState(io, name, value); err != nil {
-		panic(err)
+	resp.Code = data.GetCode()
+
+	if err = resp.SetContent(data.GetContent()); err != nil {
+		return
 	}
 
-	return
+	return writeResponse(io, resp)
 }
+
+func writeUpdate(io NetIO, data Update) (n int, err error) {
+	return write[Update](updatePrefix, io, data)
+}
+
+// func writeState(io NetIO, name string, value bool) (n int, err error) {
+// 	output := statePrefix + separator + name + "="
+
+// 	if value {
+// 		output += "YES"
+// 	} else {
+// 		output += "NO"
+// 	}
+
+// 	return io.WriteStringLine(output)
+// }
+
+// func mustWriteState(io NetIO, name string, value bool) (n int) {
+// 	var err error
+
+// 	if n, err = writeState(io, name, value); err != nil {
+// 		panic(err)
+// 	}
+
+// 	return
+// }

@@ -1,6 +1,10 @@
 package gosrv
 
-type Update struct {
+type Update interface {
+	DataWithCode
+}
+
+type pUpdate struct {
 	pDataWithCode
 
 	Method  string `json:"method" binding:"required"`
@@ -9,10 +13,10 @@ type Update struct {
 
 // ==========================
 
-func newUpdate(method, channel string, v any, codes ...int) (data *Update, err error) {
+func newUpdate(method, channel string, v any, codes ...int) (data *pUpdate, err error) {
 	code := one(200, codes)
 
-	data = &Update{
+	data = &pUpdate{
 		pDataWithCode: pDataWithCode{Code: code},
 		Method:        method,
 		Channel:       channel,

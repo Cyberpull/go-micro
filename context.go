@@ -1,9 +1,13 @@
 package gosrv
 
+import "cyberpull.com/gotk/v2/errors"
+
 type Context interface {
+	ParseContent(v any) (err error)
 	Update(v any, codes ...int) (n int, err error)
 	UpdateAll(v any, codes ...int)
 	Output(v any, code ...int) (data Output)
+	Success(v any) (data Output)
 	Error(v any, code ...int) (data Output)
 }
 
@@ -13,6 +17,10 @@ type pContext struct {
 	server  *pServer
 	client  *pClientConn
 	request *pRequest
+}
+
+func (ctx *pContext) ParseContent(v any) (err error) {
+	return ctx.request.ParseContent(v)
 }
 
 func (ctx *pContext) Update(v any, codes ...int) (n int, err error) {
@@ -32,12 +40,14 @@ func (ctx *pContext) UpdateAll(v any, codes ...int) {
 		return
 	}
 
-	for _, instance := range ctx.server.instances {
-		writeUpdate(instance.client, data)
-	}
+	go func() {
+		for _, instance := range ctx.server.instances {
+			writeUpdate(instance.client, data)
+		}
+	}()
 }
 
-func (ctx *pContext) Output(v any, codes ...int) (data *pOutput) {
+func (ctx *pContext) Output(v any, codes ...int) (data Output) {
 	code := one(200, codes)
 
 	return &pOutput{
@@ -46,8 +56,13 @@ func (ctx *pContext) Output(v any, codes ...int) (data *pOutput) {
 	}
 }
 
-func (ctx *pContext) Error(v any, code ...int) (data *pOutput) {
-	return ctx.Output(v, code...)
+func (ctx *pContext) Success(v any) (data Output) {
+	return ctx.Output(v, 200)
+}
+
+func (ctx *pContext) Error(v any, code ...int) (data Output) {
+	err := errors.From(v, code...)
+	return ctx.Output(err.Error(), err.Code())
 }
 
 // ======================

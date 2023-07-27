@@ -1,5 +1,5 @@
-cyberpull.com/gotk v1.4.2 h1:mO5UyJkGPsen3xbvQMooSICwvJiwBNTrn3tDXpL2zK0=
-cyberpull.com/gotk v1.4.2/go.mod h1:e8ZrsKFAlMXo3hSzdGK73hIPZElNy16zN7DG/janxRw=
+cyberpull.com/gotk/v2 v2.0.0 h1:7Th6dvC2M2St2RflH/c1j59nOKLI0cToSCeV8/A4zFg=
+cyberpull.com/gotk/v2 v2.0.0/go.mod h1:Bafr/j4o9/+Oh70MH3IqZrHTBynkXcas5NCvhclVq0E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

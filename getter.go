@@ -3,7 +3,7 @@ package gosrv
 import (
 	"reflect"
 
-	"cyberpull.com/gotk/errors"
+	"cyberpull.com/gotk/v2/errors"
 )
 
 func get[T any](prefix string, io NetIO) (value T, err error) {

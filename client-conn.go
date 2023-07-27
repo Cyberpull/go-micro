@@ -25,7 +25,7 @@ func (c *pClientConn) ReadRequest() (req *pRequest, err error) {
 	return getRequest(c)
 }
 
-func (c *pClientConn) WriteResponse(data *Response) (n int, err error) {
+func (c *pClientConn) WriteResponse(data Response) (n int, err error) {
 	return writeResponse(c, data)
 }
 
