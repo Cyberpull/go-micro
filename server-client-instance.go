@@ -6,6 +6,7 @@ import (
 
 	"cyberpull.com/gotk/v2"
 	"cyberpull.com/gotk/v2/errors"
+	"cyberpull.com/gotk/v2/log"
 )
 
 type serverClientInstance struct {
@@ -19,7 +20,7 @@ func (i *serverClientInstance) Start() {
 		r := recover()
 
 		if r != nil {
-			// Do something
+			log.Errorln(r)
 		}
 	}()
 

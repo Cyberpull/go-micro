@@ -3,10 +3,10 @@ package gosrv
 import (
 	"net"
 	"sync"
-
-	_ "cyberpull.com/gotk/v2/env"
 )
 
+type BootHandler func() (err error)
+type ReadyHandler func() (err error)
 type ClientBootHandler func(client NetIO) (err error)
 type ClientReadyHandler func(client ClientUpdater) (err error)
 type RequestHandlerSubscriber func(collection RequestHandlerCollection)
@@ -15,6 +15,9 @@ type RequestHandlerSubscriber func(collection RequestHandlerCollection)
 
 type Server interface {
 	Listen(errChan ...chan error)
+	OnBoot(handlers ...BootHandler)
+	OnReady(handlers ...ReadyHandler)
+	OnClientBoot(handlers ...ClientBootHandler)
 	OnClientReady(handlers ...ClientReadyHandler)
 	RequestHandlers(subscribers ...RequestHandlerSubscriber)
 	Stop() error
@@ -28,6 +31,8 @@ type pServer struct {
 	opts        ServerOptions
 	instances   map[string]*serverClientInstance
 	collection  *pRequestHandlerCollection
+	boot        []BootHandler
+	ready       []ReadyHandler
 	clientBoot  []ClientBootHandler
 	clientReady []ClientReadyHandler
 }
@@ -42,7 +47,17 @@ func (p *pServer) Listen(errChan ...chan error) {
 		return
 	}
 
+	if err := p.execBoot(); err != nil {
+		sendOne(errChan, err)
+		return
+	}
+
 	if p.listener, err = listen(p.opts); err != nil {
+		sendOne(errChan, err)
+		return
+	}
+
+	if err := p.execReady(); err != nil {
 		sendOne(errChan, err)
 		return
 	}
@@ -58,6 +73,14 @@ func (p *pServer) Listen(errChan ...chan error) {
 
 		go p.handleIncomingConnection(conn)
 	}
+}
+
+func (p *pServer) OnBoot(handlers ...BootHandler) {
+	p.boot = append(p.boot, handlers...)
+}
+
+func (p *pServer) OnReady(handlers ...ReadyHandler) {
+	p.ready = append(p.ready, handlers...)
 }
 
 func (p *pServer) RequestHandlers(subscribers ...RequestHandlerSubscriber) {
@@ -88,7 +111,10 @@ func NewServer(opts ServerOptions) Server {
 	value := &pServer{
 		opts:        opts,
 		instances:   make(map[string]*serverClientInstance),
+		boot:        make([]BootHandler, 0),
+		ready:       make([]ReadyHandler, 0),
 		collection:  newRequestHandlerCollection(),
+		clientBoot:  make([]ClientBootHandler, 0),
 		clientReady: make([]ClientReadyHandler, 0),
 	}
 

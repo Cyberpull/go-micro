@@ -55,6 +55,30 @@ func (p *pServer) removeClientInstance(i *serverClientInstance) {
 
 // Event Executors ======================
 
+func (p *pServer) execBoot() error {
+	for _, handler := range p.boot {
+		err := handler()
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (p *pServer) execReady() error {
+	for _, handler := range p.ready {
+		err := handler()
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (p *pServer) execClientBoot(i *serverClientInstance) error {
 	for _, handler := range p.clientBoot {
 		err := handler(i.client)
