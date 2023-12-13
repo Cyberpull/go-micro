@@ -2,6 +2,8 @@ cyberpull.com/gotk/v2 v2.1.0 h1:R5s+1S9FmMuVdeo5nwJPmxGxNT24w/u97wBRTwb+Buo=
 cyberpull.com/gotk/v2 v2.1.0/go.mod h1:OLkNWiNK7khiaT6SXrmZWteXkJ0RkQKlm3Tw91jjYrM=
 cyberpull.com/gotk/v2 v2.2.0 h1:3mp5st+sqMDgYmUucRhtMimJToue+9vWNLT1y2lMuJY=
 cyberpull.com/gotk/v2 v2.2.0/go.mod h1:OLkNWiNK7khiaT6SXrmZWteXkJ0RkQKlm3Tw91jjYrM=
+cyberpull.com/gotk/v2 v2.3.0 h1:7ruwxYpAXMFZ8mCQiE9V6uljxwgEwb0tS+r+4iK5lMk=
+cyberpull.com/gotk/v2 v2.3.0/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -39,6 +41,8 @@ github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcU
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 golang.org/x/crypto v0.14.0 h1:wBqGXzWJW6m1XrIKlAH0Hs1JJ7+9KBwnIO8v66Q9cHc=
 golang.org/x/crypto v0.14.0/go.mod h1:MVFd36DqK4CsrnJYDkBA3VC4m2GkXAM0PvzMCn4JQf4=
+golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb h1:c0vyKkb6yr3KR7jEfJaOSv4lG7xPkbN6r52aJz1d8a8=
+golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb/go.mod h1:iRJReGqOEeBhDZGkGbynYwcHlctCvnjTYIamk7uXpHI=
 golang.org/x/net v0.10.0 h1:X2//UzNDwYmtCLn7To6G58Wr6f5ahEAQgKNzv9Y951M=
 golang.org/x/net v0.10.0/go.mod h1:0qNGK6F8kojg2nk9dLZ2mShWaEBan6FAoqfSigmmuDg=
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
