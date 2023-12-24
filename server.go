@@ -3,6 +3,8 @@ package gosrv
 import (
 	"net"
 	"sync"
+
+	"cyberpull.com/gotk/v2/log"
 )
 
 type BootHandler func() (err error)
@@ -38,6 +40,8 @@ type pServer struct {
 }
 
 func (p *pServer) Listen(errChan ...chan error) {
+	srvInfo := p.opts.getInfo()
+
 	var err error
 
 	defer p.Stop()
@@ -56,6 +60,8 @@ func (p *pServer) Listen(errChan ...chan error) {
 		sendOne(errChan, err)
 		return
 	}
+
+	log.Infofln("%s listening on %s...", srvInfo.Name, address(p.opts))
 
 	if err := p.execReady(); err != nil {
 		sendOne(errChan, err)

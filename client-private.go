@@ -30,6 +30,8 @@ func (c *pClient) connect(errChan ...chan error) (err error) {
 		return
 	}
 
+	log.Successln("Connected to %s on %s", c.server.info.Name, address(c.opts))
+
 	c.inRequestState = true
 
 	sendOne(errChan, nil)
