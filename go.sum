@@ -1,20 +1,5 @@
-cyberpull.com/gotk/v2 v2.1.0 h1:R5s+1S9FmMuVdeo5nwJPmxGxNT24w/u97wBRTwb+Buo=
-cyberpull.com/gotk/v2 v2.1.0/go.mod h1:OLkNWiNK7khiaT6SXrmZWteXkJ0RkQKlm3Tw91jjYrM=
-cyberpull.com/gotk/v2 v2.2.0 h1:3mp5st+sqMDgYmUucRhtMimJToue+9vWNLT1y2lMuJY=
-cyberpull.com/gotk/v2 v2.2.0/go.mod h1:OLkNWiNK7khiaT6SXrmZWteXkJ0RkQKlm3Tw91jjYrM=
-cyberpull.com/gotk/v2 v2.3.0 h1:7ruwxYpAXMFZ8mCQiE9V6uljxwgEwb0tS+r+4iK5lMk=
-cyberpull.com/gotk/v2 v2.3.0/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
-cyberpull.com/gotk/v2 v2.4.0 h1:8+GSGQjYNAg4qqK9E90DpCcnR5oxzuny3Zzg5jZ03q4=
-cyberpull.com/gotk/v2 v2.4.0/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
-cyberpull.com/gotk/v2 v2.4.1 h1:lW/BNFiWtCHMvpauBKs1lLE9GgitCdCk0czRSMiaFhg=
-cyberpull.com/gotk/v2 v2.4.1/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
-<<<<<<< HEAD
-cyberpull.com/gotk/v2 v2.4.2 h1:zkLPSJKYMo0fyBqF1mIRuD2jDGWu/Q8v9eNM5YZuURY=
-cyberpull.com/gotk/v2 v2.4.2/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
-=======
 cyberpull.com/gotk/v2 v2.4.3 h1:Lys+zLV9STv81AQ1stf3dgtAR2AJV4eXEkRORtYE8bQ=
 cyberpull.com/gotk/v2 v2.4.3/go.mod h1:oDA2mNJ467eWg4FBhoOszBbx/aU0MDlE0p5LIZ6V0tE=
->>>>>>> develop
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
